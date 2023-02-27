@@ -15,6 +15,7 @@ class Loader extends PluginBase {
         self::setInstance($this);
 
         $this->registerEvents();
+        $this->registerCommands();
     }
 
     public function registerEvents(): void

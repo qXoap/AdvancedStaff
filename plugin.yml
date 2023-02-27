@@ -3,3 +3,7 @@ main: xoapp\advanced\Loader
 api: 4.0.0
 version: 1.0.0
 author: Xoapp
+
+permissions:
+  advanced.staff:
+    default: op

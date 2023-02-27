@@ -13,7 +13,7 @@ use xoapp\advanced\utils\SystemUtils;
 
 class Player extends PMPLayer {
 
-    private $freeze;
+    private $freeze = [];
 
     public function register(): void
     {
