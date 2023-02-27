@@ -8,9 +8,12 @@ use pocketmine\player\Player as PMPLayer;
 use pocketmine\Server;
 use xoapp\advanced\async\PlayerCountryAsync;
 use xoapp\advanced\session\SessionFactory;
+use xoapp\advanced\session\types\Freeze;
 use xoapp\advanced\utils\SystemUtils;
 
 class Player extends PMPLayer {
+
+    private $freeze;
 
     public function register(): void
     {
@@ -22,6 +25,26 @@ class Player extends PMPLayer {
     {
         SessionFactory::getInstance()->unregister($this);
         $this->sendMessage(SystemUtils::PREFIX . "You have exited the StaffMode");
+    }
+
+    public function setFreeze(): void
+    {
+        $this->freeze[$this->getName()] = new Freeze($this);
+    }
+
+    public function unsetFreeze(): void
+    {
+        unset($this->freeze[$this->getName()]);
+    }
+
+    public function isFreezed(): bool
+    {
+        return isset($this->freeze[$this->getName()]);
+    }
+
+    public function getAddress(): string
+    {
+        return $this->getNetworkSession()->getIp();
     }
 
     public function isRegistered(): bool

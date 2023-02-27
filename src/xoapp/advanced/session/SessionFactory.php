@@ -2,6 +2,10 @@
 
 namespace xoapp\advanced\session;
 
+use xoapp\advanced\item\Freeze;
+use xoapp\advanced\item\PlayerInfo;
+use xoapp\advanced\item\Teleport;
+use xoapp\advanced\item\Vanish;
 use xoapp\advanced\player\Player;
 use pocketmine\utils\SingletonTrait;
 
@@ -28,6 +32,7 @@ class SessionFactory {
         $player->getInventory()->clearAll();
         $player->getArmorInventory()->clearAll();
         $player->getOffHandInventory()->clearAll();
+        $this->sendKit($player);
     }
 
     public function unregister(Player $player): void
@@ -39,6 +44,17 @@ class SessionFactory {
         $player->getInventory()->setContents($this->items[$player->getName()]);
         $player->getArmorInventory()->setContents($this->armor[$player->getName()]);
         $player->getOffHandInventory()->setContents($this->off_hand[$player->getName()]);
+    }
+
+    public function sendKit(Player $player): void
+    {
+        $inventory = $player->getInventory();
+        $inventory->setContents([
+            0 => new Teleport(),
+            1 => new PlayerInfo(),
+            2 => new Freeze(),
+            8 => new Vanish()
+        ]);
     }
 
     public function isRegistered(Player $player): bool
