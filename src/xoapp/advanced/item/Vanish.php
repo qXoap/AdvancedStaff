@@ -10,7 +10,7 @@ class Vanish extends Item {
 
     public function __construct()
     {
-        parent::__construct(new ItemIdentifier(351, 8));
+        parent::__construct(new ItemIdentifier(351, 10));
         $this->setCustomName("§aVanish");
     }
 }

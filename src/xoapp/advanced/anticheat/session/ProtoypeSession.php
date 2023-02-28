@@ -2,7 +2,7 @@
 
 namespace xoapp\advanced\anticheat\session;
 
-use pocketmine\player\Player;
+use xoapp\advanced\player\Player;
 use pocketmine\utils\SingletonTrait;
 
 class ProtoypeSession {

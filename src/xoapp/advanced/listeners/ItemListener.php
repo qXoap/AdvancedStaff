@@ -42,7 +42,6 @@ class ItemListener implements Listener {
 
             $player->getInventory()->setItem(8, new UnVanish());
             $player->sendMessage(SystemUtils::PREFIX . "Now you're in vanish");
-            $player->getEffects()->add(new EffectInstance(VanillaEffects::NIGHT_VISION(), 99999999999999, 0, false));
             foreach (SystemUtils::getEveryone() as $players) {
                 $players->hidePlayer($player);
             }
@@ -56,7 +55,6 @@ class ItemListener implements Listener {
 
             $player->getInventory()->setItem(8, new Vanish());
             $player->sendMessage(SystemUtils::PREFIX . "You came out of the vanish");
-            $player->getEffects()->clear();
             foreach (SystemUtils::getEveryone() as $players) {
                 $players->showPlayer($player);
             }

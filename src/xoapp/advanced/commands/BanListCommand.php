@@ -1,6 +1,6 @@
 <?php
 
-namespace system\moderation\restrictions\commands;
+namespace xoapp\advanced\commands;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -20,7 +20,7 @@ class BanListCommand extends Command {
     {
         if (!$player instanceof Player) return;
 
-        if (!$player->hasPermission("moderation.banlist")) {
+        if (!$player->hasPermission("advanced.banlist")) {
             $player->sendMessage(SystemUtils::PREFIX . "You Don't Have Permissions to use this");
             return;
         }

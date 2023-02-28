@@ -2,10 +2,14 @@
 
 namespace xoapp\advanced;
 
+use pocketmine\entity\effect\EffectInstance;
+use pocketmine\entity\effect\VanillaEffects;
 use pocketmine\plugin\PluginBase;
+use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\SingletonTrait;
-use system\moderation\restrictions\commands\BanListCommand;
-use system\moderation\restrictions\commands\UnMuteCommand;
+use xoapp\advanced\anticheat\session\ProtoypeSession;
+use xoapp\advanced\commands\BanListCommand;
+use xoapp\advanced\commands\UnMuteCommand;
 use xoapp\advanced\anticheat\checks\AutoClick;
 use xoapp\advanced\anticheat\checks\Reach;
 use xoapp\advanced\anticheat\command\PrototypeCommand;
@@ -16,6 +20,8 @@ use xoapp\advanced\commands\StaffCommand;
 use xoapp\advanced\commands\UnBanCommand;
 use xoapp\advanced\listeners\ItemListener;
 use xoapp\advanced\listeners\PlayerListener;
+use xoapp\advanced\listeners\StaffListener;
+use xoapp\advanced\player\Player;
 use xoapp\advanced\utils\SystemUtils;
 
 class Loader extends PluginBase {
@@ -24,6 +30,10 @@ class Loader extends PluginBase {
     protected function onLoad(): void
     {
         SystemUtils::unregisterCommand(["ban", "unban", "ban-ip", "banlist"]);
+
+        if (!is_dir($this->getDataFolder() . "/restrictions/")) {
+            @mkdir($this->getDataFolder() . "/restrictions/");
+        }
     }
 
     protected function onEnable(): void
@@ -32,6 +42,26 @@ class Loader extends PluginBase {
 
         $this->registerEvents();
         $this->registerCommands();
+
+        $this->getScheduler()->scheduleRepeatingTask(new ClosureTask(function (): void {
+            foreach ($this->getServer()->getOnlinePlayers() as $onlinePlayer) {
+                if (!$onlinePlayer instanceof Player) return;
+
+                if ($onlinePlayer->isRegistered()) {
+                    $onlinePlayer->getEffects()->add(new EffectInstance(VanillaEffects::NIGHT_VISION(), null, 0, false));
+                }
+            }
+        }), 20);
+
+        $this->getScheduler()->scheduleRepeatingTask(new ClosureTask(function (): void {
+            foreach ($this->getServer()->getOnlinePlayers() as $onlinePlayer) {
+                if (!$onlinePlayer instanceof Player) return;
+
+                if (ProtoypeSession::getInstance()->isRegisterValue($onlinePlayer)) {
+                    ProtoypeSession::getInstance()->resetValue($onlinePlayer);
+                }
+            }
+        }), 800);
     }
 
     public function registerEvents(): void
@@ -40,6 +70,7 @@ class Loader extends PluginBase {
         $this->getServer()->getPluginManager()->registerEvents(new PlayerListener(), $this);
         $this->getServer()->getPluginManager()->registerEvents(new PrototypeListener(), $this);
         $this->getServer()->getPluginManager()->registerEvents(new Reach(), $this);
+        $this->getServer()->getPluginManager()->registerEvents(new StaffListener(), $this);
         $this->getServer()->getPluginManager()->registerEvents(new AutoClick(), $this);
     }
 

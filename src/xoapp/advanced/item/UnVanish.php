@@ -10,7 +10,7 @@ class UnVanish extends Item {
 
     public function __construct()
     {
-        parent::__construct(new ItemIdentifier(351, 10));
+        parent::__construct(new ItemIdentifier(351, 8));
         $this->setCustomName("§cUnVanish");
     }
 }

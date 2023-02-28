@@ -1,6 +1,6 @@
 <?php
 
-namespace system\moderation\restrictions\commands;
+namespace xoapp\advanced\commands;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -19,7 +19,7 @@ class UnMuteCommand extends Command {
     {
         if (!$player instanceof Player) return;
 
-        if (!$player->hasPermission("moderation.unmute")) {
+        if (!$player->hasPermission("advanced.unmute")) {
             $player->sendMessage(SystemUtils::PREFIX . "You Don't Have Permissions to use this");
             return;
         }

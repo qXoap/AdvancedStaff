@@ -4,7 +4,7 @@ namespace xoapp\advanced\anticheat\command;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\player\Player;
+use xoapp\advanced\player\Player;
 use xoapp\advanced\anticheat\session\ProtoypeSession;
 use xoapp\advanced\utils\SystemUtils;
 

@@ -5,8 +5,8 @@ namespace xoapp\advanced\anticheat;
 use CortexPE\DiscordWebhookAPI\Embed;
 use CortexPE\DiscordWebhookAPI\Message;
 use CortexPE\DiscordWebhookAPI\Webhook;
-use xoapp\advanced\player\Player;
 use xoapp\advanced\anticheat\session\ProtoypeSession;
+use xoapp\advanced\player\Player;
 use xoapp\advanced\utils\SystemUtils;
 
 class Prototype {
@@ -14,9 +14,10 @@ class Prototype {
     public static function debug(Player $cheater, string $cheatType, string $diff): void
     {
         foreach (SystemUtils::getEveryone() as $player) {
+            if (!$player instanceof Player) return;
             if (ProtoypeSession::getInstance()->isRegister($player)) {
                 $vl = ProtoypeSession::getInstance()->getValue($cheater);
-                $player->sendMessage(SystemUtils::LOG . "Debug §7(§e" . $cheater->getName() . " §7: §e" . $cheatType . "§7) VL: §e" . $vl . " §8(§7diff:§e" . $diff . " §7ping:" . $cheater->getConnection() . "§8)");
+                $player->sendMessage(SystemUtils::LOG . "Debug §7(§e" . $cheater->getName() . " §7: §e" . $cheatType . "§7) VL: §e" . $vl . " §8(§7diff:§e" . $diff . " §7ping:§e" . $cheater->getConnection() . "§8)");
             }
         }
         if (SystemUtils::equals($cheatType, "AutoClick")) {

@@ -7,3 +7,15 @@ author: Xoapp
 permissions:
   advanced.staff:
     default: op
+  advanced.unmute:
+    default: op
+  advanced.banlist:
+    default: op
+  advanced.ban:
+    default: op
+  advanced.mute:
+    default: op
+  advanced.unban:
+    default: op
+  prototype.command:
+    default: op

@@ -22,7 +22,7 @@ class MuteCommand extends Command {
     {
         if (!$player instanceof Player) return;
 
-        if (!$player->hasPermission("moderation.mute")) {
+        if (!$player->hasPermission("advanced.mute")) {
             $player->sendMessage(SystemUtils::PREFIX . "You Don't Have Permissions to use this");
             return;
         }

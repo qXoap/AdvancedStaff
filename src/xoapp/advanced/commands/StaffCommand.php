@@ -28,6 +28,7 @@ class StaffCommand extends Command {
 
         if ($player->isRegistered()) {
             $player->unregister();
+            $player->getEffects()->clear();
             return;
         }
     }

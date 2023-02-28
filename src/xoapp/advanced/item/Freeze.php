@@ -10,7 +10,7 @@ class Freeze extends Item {
 
     public function __construct()
     {
-        parent::__construct(new ItemIdentifier(ItemIds::COMPASS, 0));
+        parent::__construct(new ItemIdentifier(ItemIds::ICE, 0));
         $this->setCustomName("§eFreeze");
     }
 }
