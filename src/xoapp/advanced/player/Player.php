@@ -6,16 +6,16 @@ use pocketmine\network\mcpe\protocol\types\DeviceOS;
 use pocketmine\network\mcpe\protocol\types\InputMode;
 use pocketmine\player\Player as PMPLayer;
 use pocketmine\Server;
+use pocketmine\world\Position;
 use xoapp\advanced\async\PlayerCountryAsync;
 use xoapp\advanced\session\SessionFactory;
 use xoapp\advanced\session\types\Freeze;
-use xoapp\advanced\session\types\Vanish;
 use xoapp\advanced\utils\SystemUtils;
 
 class Player extends PMPLayer {
 
     private $freeze = [];
-    private $vanish = [];
+    private $cps = [];
 
     public function register(): void
     {
@@ -102,5 +102,29 @@ class Player extends PMPLayer {
     public function getDeviceModel(): string
     {
         return $this->getPlayerInfo()->getExtraData()["DeviceModel"];
+    }
+
+    public function distance(Position $b): int
+    {
+        return sqrt(pow($this->getPosition()->getX() - $b->getX(), 2) + pow($this->getPosition()->getY() - $b->getY(), 2) + pow($this->getPosition()->getZ() - $b->getZ(), 2));
+    }
+
+    public function addClicks(): void
+    {
+        $time = microtime(true);
+        $this->cps[$this->getName()][] = $time;
+    }
+
+    public function getClicks(): int
+    {
+        $time = microtime(true);
+        return count(array_filter($this->cps[$this->getName()] ?? [], static function (float $t) use ($time): bool {
+            return ($time - $t) <= 1;
+        }));
+    }
+
+    public function getConnection(): int
+    {
+        return $this->getNetworkSession()->getPing();
     }
 }
