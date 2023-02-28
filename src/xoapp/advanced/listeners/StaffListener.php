@@ -19,7 +19,7 @@ use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\player\PlayerRespawnEvent;
 use pocketmine\event\server\CommandEvent;
 use pocketmine\Server;
-use xoapp\advanced\player\Player;
+use pocketmine\player\Player;
 use xoapp\advanced\session\SessionFactory;
 
 class StaffListener implements Listener {
@@ -28,13 +28,11 @@ class StaffListener implements Listener {
     {
         $player = $event->getPlayer();
 
-        if (!$player instanceof Player) return;
-
-        if ($player->isFreezed()) {
-            $player->unsetFreeze();
+        if (SessionFactory::getInstance()->isFreezed($player)()) {
+            SessionFactory::getInstance()->unsetFreeze($player);
         }
 
-        if ($player->isRegistered()) {
+        if (SessionFactory::getInstance()->isRegistered($player)) {
             $player->getInventory()->clearAll();
             $player->getArmorInventory()->clearAll();
             $player->getEffects()->clear();
@@ -54,7 +52,7 @@ class StaffListener implements Listener {
 
         if(!$player instanceof Player)return;
 
-        if ($player->isRegistered()) {
+        if (SessionFactory::getInstance()->isRegistered($player)) {
             $event->cancel();
         }
     }
@@ -63,9 +61,7 @@ class StaffListener implements Listener {
     {
         $player = $event->getPlayer();
 
-        if (!$player instanceof Player) return;
-
-        if ($player->isRegistered()) {
+        if (SessionFactory::getInstance()->isRegistered($player)) {
             $event->setDrops([]);
         }
     }
@@ -74,9 +70,7 @@ class StaffListener implements Listener {
     {
         $player = $event->getPlayer();
 
-        if (!$player instanceof Player) return;
-
-        if ($player->isRegistered()) {
+        if (SessionFactory::getInstance()->isRegistered($player)) {
             SessionFactory::getInstance()->sendKit($player);
         }
     }
@@ -85,9 +79,7 @@ class StaffListener implements Listener {
     {
         $player = $event->getPlayer();
 
-        if (!$player instanceof Player) return;
-
-        if ($player->isRegistered()) {
+        if (SessionFactory::getInstance()->isRegistered($player)) {
             $player->getInventory()->clearAll();
             $player->getArmorInventory()->clearAll();
             $player->getEffects()->clear();
@@ -105,9 +97,7 @@ class StaffListener implements Listener {
     {
         $player = $event->getPlayer();
 
-        if (!$player instanceof Player) return;
-
-        if ($player->isRegistered()) {
+        if (SessionFactory::getInstance()->isRegistered($player)) {
             $event->cancel();
         }
     }
@@ -116,9 +106,7 @@ class StaffListener implements Listener {
     {
         $player = $event->getPlayer();
 
-        if (!$player instanceof Player) return;
-
-        if ($player->isRegistered()) {
+        if (SessionFactory::getInstance()->isRegistered($player)) {
             $event->cancel();
         }
     }
@@ -127,9 +115,7 @@ class StaffListener implements Listener {
     {
         $player = $event->getPlayer();
 
-        if (!$player instanceof Player) return;
-
-        if ($player->isRegistered()) {
+        if (SessionFactory::getInstance()->isRegistered($player)) {
             $event->cancel();
         }
     }
@@ -138,9 +124,7 @@ class StaffListener implements Listener {
     {
         $player = $event->getPlayer();
 
-        if (!$player instanceof Player) return;
-
-        if ($player->isRegistered()) {
+        if (SessionFactory::getInstance()->isRegistered($player)) {
             $event->cancel();
         }
     }
@@ -151,12 +135,12 @@ class StaffListener implements Listener {
 
         if (!$entity instanceof Player) return;
 
-        if ($entity->isRegistered()) {
+        if (SessionFactory::getInstance()->isRegistered($entity)) {
             $event->cancel();
             return;
         }
 
-        if ($entity->isFreezed()) {
+        if (SessionFactory::getInstance()->isFreezed($entity)) {
             $event->cancel();
             return;
         }
@@ -168,7 +152,7 @@ class StaffListener implements Listener {
 
         if(!$entity instanceof Player)return;
 
-        if ($entity->isFreezed()) {
+        if (SessionFactory::getInstance()->isRegistered($entity)) {
             $event->cancel();
         }
     }
@@ -177,7 +161,7 @@ class StaffListener implements Listener {
     {
         $entity = $event->getEntity();
         if ($entity instanceof Player) {
-            if ($entity->isRegistered()) {
+            if (SessionFactory::getInstance()->isRegistered($entity)) {
                 $event->cancel();
             }
         }
@@ -187,25 +171,8 @@ class StaffListener implements Listener {
     {
         $entity = $event->getEntity();
         if ($entity instanceof Player) {
-            if ($entity->isRegistered()) {
+            if (SessionFactory::getInstance()->isRegistered($entity)) {
                 $event->cancel();
-            }
-        }
-    }
-
-    public function onPlayerChat(PlayerChatEvent $event)
-    {
-        $player = $event->getPlayer();
-        $message = $event->getMessage();
-        if (!$player instanceof Player) return;
-        foreach (Server::getInstance()->getOnlinePlayers() as $online) {
-            if($online->hasPermission("moderation.staffchat")){
-                if ($player->isRegistered()) {
-
-                    $online->sendMessage("§8(§6StaffChat§8) §f" . $player->getName() . " §7: " . $message);
-
-                    $event->cancel();
-                }
             }
         }
     }
@@ -216,7 +183,7 @@ class StaffListener implements Listener {
 
         if(!$player instanceof Player)return;
 
-        if ($player->isFreezed()) {
+        if (SessionFactory::getInstance()->isFreezed($player)) {
             $event->cancel();
         }
     }

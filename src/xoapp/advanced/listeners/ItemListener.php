@@ -2,8 +2,6 @@
 
 namespace xoapp\advanced\listeners;
 
-use pocketmine\entity\effect\EffectInstance;
-use pocketmine\entity\effect\VanillaEffects;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerItemUseEvent;
@@ -14,7 +12,9 @@ use xoapp\advanced\item\PlayerInfo;
 use xoapp\advanced\item\Teleport;
 use xoapp\advanced\item\UnVanish;
 use xoapp\advanced\item\Vanish;
-use xoapp\advanced\player\Player;
+use pocketmine\player\Player;
+use xoapp\advanced\session\SessionFactory;
+use xoapp\advanced\utils\PlayerUtils;
 use xoapp\advanced\utils\SystemUtils;
 
 class ItemListener implements Listener {
@@ -24,10 +24,8 @@ class ItemListener implements Listener {
         $player = $event->getPlayer();
         $item = $event->getItem();
 
-        if (!$player instanceof Player) return;
-
         if ($item instanceof Teleport) {
-            if (!$player->isRegistered()) {
+            if (!SessionFactory::getInstance()->isRegistered($player)) {
                 return;
             }
 
@@ -36,7 +34,7 @@ class ItemListener implements Listener {
         }
 
         if ($item instanceof Vanish) {
-            if (!$player->isRegistered()) {
+            if (!SessionFactory::getInstance()->isRegistered($player)) {
                 return;
             }
 
@@ -49,7 +47,7 @@ class ItemListener implements Listener {
         }
 
         if ($item instanceof UnVanish) {
-            if (!$player->isRegistered()) {
+            if (!SessionFactory::getInstance()->isRegistered($player)) {
                 return;
             }
 
@@ -73,26 +71,25 @@ class ItemListener implements Listener {
         $item = $player->getInventory()->getItemInHand();
 
         if ($item instanceof Freeze) {
-            if (!$player->isRegistered()) {
+            if (!SessionFactory::getInstance()->isRegistered($player)) {
                 $event->cancel();
                 return;
             }
 
-            if ($vic->isRegistered()) {
+            if (SessionFactory::getInstance()->isRegistered($vic)) {
                 $event->cancel();
                 return;
             }
 
-            if (!$vic->isFreezed()) {
-                $vic->setFreeze();
+            if (!SessionFactory::getInstance()->isFreezed($vic)) {
                 $vic->setImmobile();
                 Server::getInstance()->broadcastMessage(SystemUtils::PREFIX . "Player §e" . $vic->getName() . " was frozen by §e" . $player->getName());
                 $event->cancel();
                 return;
             }
 
-            if ($vic->isFreezed()) {
-                $vic->unsetFreeze();
+            if (SessionFactory::getInstance()->isFreezed($vic)) {
+                SessionFactory::getInstance()->unsetFreeze($vic);
                 $vic->setImmobile(false);
                 Server::getInstance()->broadcastMessage(SystemUtils::PREFIX . "Player §e" . $vic->getName() . " was thawed by §e" . $player->getName());
                 $event->cancel();
@@ -101,24 +98,24 @@ class ItemListener implements Listener {
         }
 
         if ($item instanceof PlayerInfo) {
-            if (!$player->isRegistered()) {
+            if (!SessionFactory::getInstance()->isRegistered($player)) {
                 $event->cancel();
                 return;
             }
 
-            if ($vic->isRegistered()) {
+            if (SessionFactory::getInstance()->isRegistered($vic)) {
                 $event->cancel();
                 return;
             }
 
-            $vic->getCountry(function (string $country) use ($player, $vic) {
+            PlayerUtils::getCountry($vic, function (string $country) use ($player, $vic) {
                 $player->sendMessage(SystemUtils::PREFIX . "Player Information: §e" . $vic->getName());
                 $player->sendMessage(" ");
-                $player->sendMessage("§7 - §fPlayer Address" . $vic->getAddress());
+                $player->sendMessage("§7 - §fPlayer Address" . $vic->getNetworkSession()->getIp());
                 $player->sendMessage("§7 - §fPlayer Country" . $country);
-                $player->sendMessage("§7 - §fPlayer Device" . $vic->getDeviceModel());
-                $player->sendMessage("§7 - §fPlayer Platform" . $vic->getCurrentPlatform());
-                $player->sendMessage("§7 - §fPlayer Input" . $vic->getCurrentInput());
+                $player->sendMessage("§7 - §fPlayer Device" . PlayerUtils::getDeviceModel($vic));
+                $player->sendMessage("§7 - §fPlayer Platform" . PlayerUtils::getPlayerPlatform($vic));
+                $player->sendMessage("§7 - §fPlayer Input" . PlayerUtils::getPlayerInput($vic));
                 $player->sendMessage(" ");
             });
 
@@ -126,7 +123,7 @@ class ItemListener implements Listener {
             return;
         }
 
-        if ($player->isRegistered()) {
+        if (SessionFactory::getInstance()->isRegistered($player)) {
             $event->cancel();
             return;
         }

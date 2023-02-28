@@ -22,6 +22,7 @@ use xoapp\advanced\listeners\ItemListener;
 use xoapp\advanced\listeners\PlayerListener;
 use xoapp\advanced\listeners\StaffListener;
 use xoapp\advanced\player\Player;
+use xoapp\advanced\session\SessionFactory;
 use xoapp\advanced\utils\SystemUtils;
 
 class Loader extends PluginBase {
@@ -45,9 +46,8 @@ class Loader extends PluginBase {
 
         $this->getScheduler()->scheduleRepeatingTask(new ClosureTask(function (): void {
             foreach ($this->getServer()->getOnlinePlayers() as $onlinePlayer) {
-                if (!$onlinePlayer instanceof Player) return;
 
-                if ($onlinePlayer->isRegistered()) {
+                if (SessionFactory::getInstance()->isRegistered($onlinePlayer)) {
                     $onlinePlayer->getEffects()->add(new EffectInstance(VanillaEffects::NIGHT_VISION(), null, 0, false));
                 }
             }
@@ -55,8 +55,6 @@ class Loader extends PluginBase {
 
         $this->getScheduler()->scheduleRepeatingTask(new ClosureTask(function (): void {
             foreach ($this->getServer()->getOnlinePlayers() as $onlinePlayer) {
-                if (!$onlinePlayer instanceof Player) return;
-
                 if (ProtoypeSession::getInstance()->isRegisterValue($onlinePlayer)) {
                     ProtoypeSession::getInstance()->resetValue($onlinePlayer);
                 }
@@ -67,7 +65,6 @@ class Loader extends PluginBase {
     public function registerEvents(): void
     {
         $this->getServer()->getPluginManager()->registerEvents(new ItemListener(), $this);
-        $this->getServer()->getPluginManager()->registerEvents(new PlayerListener(), $this);
         $this->getServer()->getPluginManager()->registerEvents(new PrototypeListener(), $this);
         $this->getServer()->getPluginManager()->registerEvents(new Reach(), $this);
         $this->getServer()->getPluginManager()->registerEvents(new StaffListener(), $this);

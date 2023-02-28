@@ -6,13 +6,15 @@ use xoapp\advanced\item\Freeze;
 use xoapp\advanced\item\PlayerInfo;
 use xoapp\advanced\item\Teleport;
 use xoapp\advanced\item\Vanish;
-use xoapp\advanced\player\Player;
+use pocketmine\player\Player;
 use pocketmine\utils\SingletonTrait;
 
 class SessionFactory {
     use SingletonTrait;
 
-    private $session;
+    private $session = [];
+
+    private $freeze = [];
 
     private $items;
     private $armor;
@@ -60,5 +62,20 @@ class SessionFactory {
     public function isRegistered(Player $player): bool
     {
         return isset($this->session[$player->getName()]);
+    }
+
+    public function setFreeze(Player $player): void
+    {
+        $this->freeze[$player->getName()] = new \xoapp\advanced\session\types\Freeze($player);
+    }
+
+    public function unsetFreeze(Player $player): void
+    {
+        unset($this->freeze[$player->getName()]);
+    }
+
+    public function isFreezed(Player $player): bool
+    {
+        return isset($this->freeze[$player->getName()]);
     }
 }

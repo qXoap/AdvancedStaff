@@ -4,7 +4,8 @@ namespace xoapp\advanced\commands;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use xoapp\advanced\player\Player;
+use pocketmine\player\Player;
+use xoapp\advanced\session\SessionFactory;
 
 class StaffCommand extends Command {
 
@@ -21,13 +22,13 @@ class StaffCommand extends Command {
             return;
         }
 
-        if (!$player->isRegistered()) {
-            $player->register();
+        if (!SessionFactory::getInstance()->isRegistered($player)) {
+            SessionFactory::getInstance()->register($player);
             return;
         }
 
-        if ($player->isRegistered()) {
-            $player->unregister();
+        if (SessionFactory::getInstance()->isRegistered($player)) {
+            SessionFactory::getInstance()->unregister($player);
             $player->getEffects()->clear();
             return;
         }
