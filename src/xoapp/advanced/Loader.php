@@ -6,6 +6,7 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\utils\SingletonTrait;
 use xoapp\advanced\commands\StaffCommand;
 use xoapp\advanced\listeners\ItemListener;
+use xoapp\advanced\listeners\PlayerListener;
 
 class Loader extends PluginBase {
     use SingletonTrait;
@@ -21,6 +22,7 @@ class Loader extends PluginBase {
     public function registerEvents(): void
     {
         $this->getServer()->getPluginManager()->registerEvents(new ItemListener(), $this);
+        $this->getServer()->getPluginManager()->registerEvents(new PlayerListener(), $this);
     }
 
     public function registerCommands(): void

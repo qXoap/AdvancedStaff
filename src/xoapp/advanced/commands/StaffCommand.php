@@ -15,10 +15,7 @@ class StaffCommand extends Command {
 
     public function execute(CommandSender $player, string $commandLabel, array $args)
     {
-        if (!$player instanceof Player) {
-            $player->sendMessage("Execute with Game");
-            return;
-        }
+        if (!$player instanceof Player) return;
 
         if (!$player->hasPermission("advanced.staff")) {
             return;

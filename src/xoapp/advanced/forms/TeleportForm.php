@@ -20,22 +20,14 @@ class TeleportForm extends SimpleForm {
                 return;
             }
 
-            if (SystemUtils::equals($data, "random")) {
-                foreach (SystemUtils::getEveryone() as $players) {
-                    $result = Server::getInstance()->getPlayerExact($players[array_rand((array)$players)]);
-
-                    if (!$result instanceof Player) return;
-
-                    $player->teleport($result->getPosition());
-                    $player->sendMessage(SystemUtils::PREFIX . "You have randomly teleported to §e" . $result->getName());
-                }
-                return;
-            }
-
             $result = Server::getInstance()->getPlayerExact($data);
 
             if (!$result instanceof Player) {
                 $player->sendMessage(SystemUtils::PREFIX . "This Player Is Not Online");
+                return;
+            }
+
+            if (SystemUtils::equals($result->getName(), $player->getName())) {
                 return;
             }
 
@@ -44,9 +36,8 @@ class TeleportForm extends SimpleForm {
         });
         $this->setTitle("Player List");
         $this->addButton("Close", 0, "textures/ui/redX1", "close");
-        $this->addButton("Random Teleport", 0, "textures/ui/icon_random", "random");
         foreach (SystemUtils::getEveryone() as $player) {
-            $this->addButton($player->getName() . "\nTap To Teleport", 1, "textures/ui/icon_steve", $player->getName());
+            $this->addButton($player->getName() . "\nTap To Teleport", 0, "textures/ui/icon_steve", $player->getName());
         }
     }
 }

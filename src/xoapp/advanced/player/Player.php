@@ -9,11 +9,13 @@ use pocketmine\Server;
 use xoapp\advanced\async\PlayerCountryAsync;
 use xoapp\advanced\session\SessionFactory;
 use xoapp\advanced\session\types\Freeze;
+use xoapp\advanced\session\types\Vanish;
 use xoapp\advanced\utils\SystemUtils;
 
 class Player extends PMPLayer {
 
     private $freeze = [];
+    private $vanish = [];
 
     public function register(): void
     {
