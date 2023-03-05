@@ -3,8 +3,8 @@
 namespace xoapp\advanced\forms;
 
 use Forms\FormAPI\SimpleForm;
+use pocketmine\player\Player;
 use pocketmine\Server;
-use xoapp\advanced\player\Player;
 use xoapp\advanced\utils\SystemUtils;
 
 class TeleportForm extends SimpleForm {
