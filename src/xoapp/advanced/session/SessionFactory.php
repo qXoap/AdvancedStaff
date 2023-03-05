@@ -2,6 +2,7 @@
 
 namespace xoapp\advanced\session;
 
+use pocketmine\player\GameMode;
 use xoapp\advanced\item\Freeze;
 use xoapp\advanced\item\PlayerInfo;
 use xoapp\advanced\item\Teleport;
@@ -35,6 +36,7 @@ class SessionFactory {
         $player->getArmorInventory()->clearAll();
         $player->getOffHandInventory()->clearAll();
         $this->sendKit($player);
+        $player->setGamemode(GameMode::SURVIVAL());
     }
 
     public function unregister(Player $player): void
@@ -46,6 +48,7 @@ class SessionFactory {
         $player->getInventory()->setContents($this->items[$player->getName()]);
         $player->getArmorInventory()->setContents($this->armor[$player->getName()]);
         $player->getOffHandInventory()->setContents($this->off_hand[$player->getName()]);
+        $player->setGamemode(GameMode::SURVIVAL());
     }
 
     public function sendKit(Player $player): void

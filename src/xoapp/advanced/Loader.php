@@ -7,6 +7,7 @@ use pocketmine\entity\effect\VanillaEffects;
 use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\SingletonTrait;
+use xoapp\advanced\anticheat\checks\Nuke;
 use xoapp\advanced\anticheat\checks\Toolbox;
 use xoapp\advanced\anticheat\session\ProtoypeSession;
 use xoapp\advanced\commands\BanListCommand;
@@ -71,6 +72,7 @@ class Loader extends PluginBase {
         $this->getServer()->getPluginManager()->registerEvents(new StaffListener(), $this);
         $this->getServer()->getPluginManager()->registerEvents(new AutoClick(), $this);
         $this->getServer()->getPluginManager()->registerEvents(new Toolbox(), $this);
+        $this->getServer()->getPluginManager()->registerEvents(new Nuke(), $this);
     }
 
     public function registerCommands(): void

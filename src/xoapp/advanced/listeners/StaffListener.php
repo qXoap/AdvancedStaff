@@ -28,7 +28,7 @@ class StaffListener implements Listener {
     {
         $player = $event->getPlayer();
 
-        if (SessionFactory::getInstance()->isFreezed($player)()) {
+        if (SessionFactory::getInstance()->isFreezed($player)) {
             SessionFactory::getInstance()->unsetFreeze($player);
         }
 

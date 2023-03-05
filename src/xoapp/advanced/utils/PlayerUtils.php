@@ -59,7 +59,7 @@ class PlayerUtils {
         };
     }
 
-    public static function distance(Position $a, Position $b)
+    public static function distance(Position $a, Position $b): float
     {
         return sqrt(pow($a->getX() - $b->getX(), 2) + pow($a->getY() - $b->getY(), 2) + pow($a->getZ() - $b->getZ(), 2));
     }

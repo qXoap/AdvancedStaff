@@ -10,7 +10,8 @@ use pocketmine\network\mcpe\protocol\types\inventory\UseItemOnEntityTransactionD
 use pocketmine\network\mcpe\protocol\types\LevelSoundEvent;
 use xoapp\advanced\anticheat\Prototype;
 use xoapp\advanced\anticheat\session\ProtoypeSession;
-use xoapp\advanced\player\Player;
+use pocketmine\player\Player;
+use xoapp\advanced\utils\PlayerUtils;
 use xoapp\advanced\utils\SystemUtils;
 
 class AutoClick implements Listener {
@@ -25,8 +26,8 @@ class AutoClick implements Listener {
 
         if ($pk instanceof LevelSoundEventPacket) {
             if (SystemUtils::equals($pk->sound, LevelSoundEvent::ATTACK_NODAMAGE)) {
-                $player->addClicks();
-                $clicks = $player->getClicks();
+                PlayerUtils::addClicks($player);
+                $clicks = PlayerUtils::getClicks($player);
 
                 if (SystemUtils::isMore($clicks, 24)) {
                     ProtoypeSession::getInstance()->addValue($player);
@@ -37,8 +38,8 @@ class AutoClick implements Listener {
 
         if ($pk instanceof InventoryTransactionPacket) {
             if ($pk->trData instanceof UseItemOnEntityTransactionData) {
-                $player->addClicks();
-                $clicks = $player->getClicks();
+                PlayerUtils::addClicks($player);
+                $clicks = PlayerUtils::getClicks($player);
 
                 if (SystemUtils::isMore($clicks, 24)) {
                     ProtoypeSession::getInstance()->addValue($player);

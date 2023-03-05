@@ -39,7 +39,7 @@ class SystemUtils {
         return false;
     }
 
-    public static function broadcastMessage(string $message)
+    public static function broadcastMessage(string $message): string
     {
         return Server::getInstance()->broadcastMessage($message);
     }
