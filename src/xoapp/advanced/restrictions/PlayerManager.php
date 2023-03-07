@@ -26,8 +26,13 @@ class PlayerManager {
         self::$config->save();
     }
 
-    public static function isRegistered(Player $player): bool
+    public static function isRegistered(string $player): bool
     {
-        return self::$config->exists($player->getName());
+        return self::$config->exists($player);
+    }
+
+    public static function getPlayers(): array
+    {
+        return self::$config->getAll(true);
     }
 }

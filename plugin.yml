@@ -19,3 +19,7 @@ permissions:
     default: op
   prototype.command:
     default: op
+  advanced.alts:
+    default: op
+  advanced.ban-ip:
+    default: op

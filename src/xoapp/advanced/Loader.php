@@ -11,6 +11,7 @@ use xoapp\advanced\anticheat\checks\Nuke;
 use xoapp\advanced\anticheat\checks\Packets;
 use xoapp\advanced\anticheat\checks\Toolbox;
 use xoapp\advanced\anticheat\session\ProtoypeSession;
+use xoapp\advanced\commands\AltsCommand;
 use xoapp\advanced\commands\BanIpCommand;
 use xoapp\advanced\commands\BanListCommand;
 use xoapp\advanced\commands\UnMuteCommand;
@@ -27,6 +28,7 @@ use xoapp\advanced\listeners\ItemListener;
 use xoapp\advanced\listeners\LoginListener;
 use xoapp\advanced\listeners\PlayerListener;
 use xoapp\advanced\listeners\StaffListener;
+use xoapp\advanced\restrictions\PlayerManager;
 use xoapp\advanced\session\SessionFactory;
 use xoapp\advanced\utils\SystemUtils;
 
@@ -45,6 +47,8 @@ class Loader extends PluginBase {
     protected function onEnable(): void
     {
         self::setInstance($this);
+
+        new PlayerManager();
 
         $this->registerEvents();
         $this->registerCommands();
@@ -90,7 +94,8 @@ class Loader extends PluginBase {
             new UnMuteCommand(),
             new BanListCommand(),
             new MuteCommand(),
-            new BanIpCommand()
+            new BanIpCommand(),
+            new AltsCommand()
         ]);
     }
 }

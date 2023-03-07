@@ -58,7 +58,7 @@ class BanIpCommand extends Command {
         }
 
         if (($vic = Server::getInstance()->getPlayerExact($args[0])) instanceof Player) {
-            if (!PlayerManager::isRegistered($vic)) {
+            if (!PlayerManager::isRegistered($vic->getName())) {
                 PlayerManager::register($vic);
             }
         }

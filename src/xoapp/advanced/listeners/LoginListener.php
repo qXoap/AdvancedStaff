@@ -63,7 +63,7 @@ class LoginListener implements Listener {
 
     public function onPlayerJoin(PlayerJoinEvent $event)
     {
-        if (!PlayerManager::isRegistered($event->getPlayer())) {
+        if (!PlayerManager::isRegistered($event->getPlayer()->getName())) {
             PlayerManager::register($event->getPlayer());
         }
     }
