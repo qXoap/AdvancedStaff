@@ -3,8 +3,10 @@
 namespace xoapp\advanced\listeners;
 
 use pocketmine\event\Listener;
+use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerLoginEvent;
 use xoapp\advanced\restrictions\BanManager;
+use xoapp\advanced\restrictions\PlayerManager;
 use xoapp\advanced\restrictions\TimeManager;
 
 class LoginListener implements Listener {
@@ -56,6 +58,13 @@ class LoginListener implements Listener {
 
             $player->kick("§7You have been Temporarily IP Banned\n§7Reason: (§e" . $reason . " §7: §e" . $sender . "§7 : §e" . $date . "§7)\n§7Expiry in §e" . $time);
             return;
+        }
+    }
+
+    public function onPlayerJoin(PlayerJoinEvent $event)
+    {
+        if (!PlayerManager::isRegistered($event->getPlayer())) {
+            PlayerManager::register($event->getPlayer());
         }
     }
 }
