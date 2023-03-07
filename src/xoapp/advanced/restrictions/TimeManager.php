@@ -6,7 +6,7 @@ class TimeManager {
 
     const VALID_FORMATS = ["minutes", "hours", "seconds", "days", "years", "months"];
 
-    public static function intToString(string $timeFormat)
+    public static function intToString(string $timeFormat): string
     {
         $format = str_split($timeFormat);
         $time = null;
@@ -35,7 +35,7 @@ class TimeManager {
         return $time;
     }
 
-    public static function stringToInt(string $timeFormat)
+    public static function stringToInt(string $timeFormat): int
     {
         $format = str_split($timeFormat);
         $characters = "";

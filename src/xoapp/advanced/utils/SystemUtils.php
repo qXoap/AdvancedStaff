@@ -2,6 +2,7 @@
 
 namespace xoapp\advanced\utils;
 
+use pocketmine\player\Player;
 use pocketmine\Server;
 
 class SystemUtils {
@@ -18,7 +19,7 @@ class SystemUtils {
         return false;
     }
 
-    public static function getEveryone()
+    public static function getEveryone(): Player|array
     {
         return Server::getInstance()->getOnlinePlayers();
     }

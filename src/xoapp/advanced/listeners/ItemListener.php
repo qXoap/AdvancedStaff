@@ -82,6 +82,7 @@ class ItemListener implements Listener {
             }
 
             if (!SessionFactory::getInstance()->isFreezed($vic)) {
+                SessionFactory::getInstance()->setFreeze($player);
                 $vic->setImmobile();
                 Server::getInstance()->broadcastMessage(SystemUtils::PREFIX . "Player §e" . $vic->getName() . " was frozen by §e" . $player->getName());
                 $event->cancel();

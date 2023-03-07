@@ -13,7 +13,7 @@ class PlayerUtils {
 
     private static $cps;
 
-    public static function getPlayerInput(Player $player)
+    public static function getPlayerInput(Player $player): string
     {
         $data = $player->getPlayerInfo()->getExtraData();
 
@@ -32,7 +32,7 @@ class PlayerUtils {
         return $data["DeviceModel"];
     }
 
-    public static function getPlayerPlatform(Player $player)
+    public static function getPlayerPlatform(Player $player): string
     {
         $extraData = $player->getPlayerInfo()->getExtraData();
 

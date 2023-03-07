@@ -2,9 +2,11 @@
 
 namespace xoapp\advanced\restrictions;
 
+use pocketmine\item\Book;
 use pocketmine\utils\Config;
 use pocketmine\utils\SingletonTrait;
 use xoapp\advanced\Loader;
+use function Sodium\add;
 
 class BanManager {
     use SingletonTrait;
@@ -37,7 +39,7 @@ class BanManager {
         }
     }
 
-    public function isRegistered(string $name, bool $isPermanently = false)
+    public function isRegistered(string $name, bool $isPermanently = false): bool
     {
         if ($isPermanently) {
             return $this->permanently->exists($name);
@@ -66,7 +68,7 @@ class BanManager {
         }
     }
 
-    public function getBanneds(bool $isPermanently = false)
+    public function getBanneds(bool $isPermanently = false): array
     {
         if ($isPermanently) {
             return $this->permanently->getAll(true);
@@ -83,9 +85,14 @@ class BanManager {
         $this->address->save();
     }
 
-    public function isAddressRegistered(string $address)
+    public function isAddressRegistered(string $address): bool
     {
         return $this->address->exists($address);
+    }
+
+    public function getAddressData(string $name, string $data): string
+    {
+        return $this->address->get($name)[$data];
     }
 
     public function unregisterAddress(string $address): void

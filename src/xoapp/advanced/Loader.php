@@ -8,8 +8,10 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\SingletonTrait;
 use xoapp\advanced\anticheat\checks\Nuke;
+use xoapp\advanced\anticheat\checks\Packets;
 use xoapp\advanced\anticheat\checks\Toolbox;
 use xoapp\advanced\anticheat\session\ProtoypeSession;
+use xoapp\advanced\commands\BanIpCommand;
 use xoapp\advanced\commands\BanListCommand;
 use xoapp\advanced\commands\UnMuteCommand;
 use xoapp\advanced\anticheat\checks\AutoClick;
@@ -20,10 +22,11 @@ use xoapp\advanced\commands\BanCommand;
 use xoapp\advanced\commands\MuteCommand;
 use xoapp\advanced\commands\StaffCommand;
 use xoapp\advanced\commands\UnBanCommand;
+use xoapp\advanced\listeners\ChatListener;
 use xoapp\advanced\listeners\ItemListener;
+use xoapp\advanced\listeners\LoginListener;
 use xoapp\advanced\listeners\PlayerListener;
 use xoapp\advanced\listeners\StaffListener;
-use xoapp\advanced\player\Player;
 use xoapp\advanced\session\SessionFactory;
 use xoapp\advanced\utils\SystemUtils;
 
@@ -68,6 +71,8 @@ class Loader extends PluginBase {
     {
         $this->getServer()->getPluginManager()->registerEvents(new ItemListener(), $this);
         $this->getServer()->getPluginManager()->registerEvents(new PrototypeListener(), $this);
+        $this->getServer()->getPluginManager()->registerEvents(new LoginListener(), $this);
+        $this->getServer()->getPluginManager()->registerEvents(new ChatListener(), $this);
         $this->getServer()->getPluginManager()->registerEvents(new Reach(), $this);
         $this->getServer()->getPluginManager()->registerEvents(new StaffListener(), $this);
         $this->getServer()->getPluginManager()->registerEvents(new AutoClick(), $this);
@@ -84,7 +89,8 @@ class Loader extends PluginBase {
             new UnBanCommand(),
             new UnMuteCommand(),
             new BanListCommand(),
-            new MuteCommand()
+            new MuteCommand(),
+            new BanIpCommand()
         ]);
     }
 }

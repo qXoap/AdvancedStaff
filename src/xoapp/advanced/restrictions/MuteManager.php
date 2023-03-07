@@ -26,12 +26,12 @@ class MuteManager {
         $this->temporarily->save();
     }
 
-    public function isRegistered(string $name)
+    public function isRegistered(string $name): bool
     {
         return $this->temporarily->exists($name);
     }
 
-    public function getData(string $name, string $data)
+    public function getData(string $name, string $data): string
     {
         return $this->temporarily->get($name)[$data];
     }

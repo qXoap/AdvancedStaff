@@ -23,11 +23,14 @@ class StaffCommand extends Command {
         }
 
         if (!SessionFactory::getInstance()->isRegistered($player)) {
+            $player->setAllowFlight(true);
             SessionFactory::getInstance()->register($player);
             return;
         }
 
         if (SessionFactory::getInstance()->isRegistered($player)) {
+            $player->setAllowFlight(false);
+            $player->setFlying(false);
             SessionFactory::getInstance()->unregister($player);
             $player->getEffects()->clear();
             return;

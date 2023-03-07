@@ -13,13 +13,13 @@ use pocketmine\utils\SingletonTrait;
 class SessionFactory {
     use SingletonTrait;
 
-    private $session = [];
+    private array $session = [];
 
-    private $freeze = [];
+    private array $freeze = [];
 
-    private $items;
-    private $armor;
-    private $off_hand;
+    private array $items = [];
+    private array $armor = [];
+    private array $off_hand = [];
 
     public function __construct()
     {
